@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bahan Ajar Interaktif: Fungsi Eksponensial (Kelas XI IPA)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        /* Custom range slider styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-3">
+                    <div class="bg-blue-600 text-white p-2 rounded-xl font-bold text-lg shadow-md">
+                        f(x) = a·bˣ
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Eksponensial Lab</h1>
+                        <p class="text-xs text-slate-500 hidden sm:block">Matematika Tingkat Lanjut • Kelas XI IPA</p>
+                    </div>
+                </div>
+                
+                <!-- Navigation Tabs -->
+                <div class="flex space-x-1 sm:space-x-2 overflow-x-auto py-1">
+                    <button onclick="switchTab('konsep')" id="btn-konsep" class="tab-btn px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-blue-600 text-white transition">
+                        1. Konsep & Sifat
+                    </button>
+                    <button onclick="switchTab('grafik')" id="btn-grafik" class="tab-btn px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-600 hover:bg-slate-100 transition">
+                        2. Lab Grafik
+                    </button>
+                    <button onclick="switchTab('kokurikuler')" id="btn-kokurikuler" class="tab-btn px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-600 hover:bg-slate-100 transition">
+                        3. Proyek Kokurikuler
+                    </button>
+                    <button onclick="switchTab('evaluasi')" id="btn-evaluasi" class="tab-btn px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-600 hover:bg-slate-100 transition">
+                        4. Uji Pemahaman
+                    </button>
+                    <button onclick="toggleRPPModal()" class="px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-amber-100 text-amber-800 hover:bg-amber-200 transition border border-amber-300">
+                        📋 Info RPP
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Hero / Tujuan Pembelajaran Banner -->
+        <div class="bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-800 rounded-2xl p-6 sm:p-8 text-white shadow-xl mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div class="space-y-2 max-w-3xl">
+                    <span class="inline-block px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-semibold tracking-wider uppercase">
+                        Modul Interaktif Terintegrasi Kokurikuler
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+                        Memahami & Memodelkan Fenomena Eksponensial
+                    </h2>
+                    <p class="text-blue-100 text-sm sm:text-base leading-relaxed">
+                        <strong>Tujuan Pembelajaran:</strong> Peserta didik mampu memahami konsep, sifat-sifat, dan karakteristik grafik fungsi eksponensial serta menerapkannya dalam memodelkan dan menyelesaikan masalah nyata lintas disiplin ilmu.
+                    </p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-xl text-sm shrink-0 w-full md:w-auto">
+                    <p class="font-semibold text-amber-300 mb-1">🎯 Integrasi Kokurikuler:</p>
+                    <ul class="text-xs space-y-1 text-blue-50">
+                        <li>• Biologi: Pertumbuhan Kultur Bakteri</li>
+                        <li>• Fisika/Kimia: Peluruhan Radioaktif</li>
+                        <li>• Ekonomi: Literasi Bunga Majemuk</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 1: KONSEP & SIFAT ==================== -->
+        <section id="tab-konsep" class="tab-content space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Definisi Formal -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold">A</span>
+                        <h3 class="text-xl font-bold text-slate-900">Definisi Fungsi Eksponensial</h3>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        Fungsi eksponensial adalah suatu fungsi yang memetakan setiap bilangan real <span class="font-mono font-bold text-blue-700">x</span> ke bilangan real <span class="font-mono font-bold text-blue-700">a · bˣ</span>, dengan bentuk umum:
+                    </p>
+                    <div class="bg-slate-900 text-white p-5 rounded-xl text-center my-4 shadow-inner">
+                        <p class="text-2xl sm:text-3xl font-mono font-bold tracking-wider text-amber-400">
+                            f(x) = a · bˣ
+                        </p>
+                        <p class="text-xs text-slate-300 mt-2">
+                            Syarat mutlak: <span class="text-emerald-400 font-semibold">b > 0</span>, <span class="text-emerald-400 font-semibold">b ≠ 1</span>, <span class="text-emerald-400 font-semibold">a ≠ 0</span>, dan <span class="text-emerald-400 font-semibold">x ∈ ℝ</span>
+                        </p>
+                    </div>
+                    <div class="bg-blue-50 border-l-4 border-blue-600 p-4 rounded-r-xl text-sm text-slate-700">
+                        <p class="font-bold text-blue-900 mb-1">Mengapa b > 0 dan b ≠ 1?</p>
+                        <ul class="list-disc list-inside space-y-1 text-xs sm:text-sm">
+                            <li>Jika <strong>b = 1</strong>, maka f(x) = a · 1ˣ = a (menjadi fungsi konstan, bukan eksponensial).</li>
+                            <li>Jika <strong>b ≤ 0</strong>, untuk nilai x pecahan (misal x = ½), f(½) = b^(1/2) = √b bisa menghasilkan bilangan imajiner (tidak terdefinisi di ℝ).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Simulasi Mini: Eksplorasi Pangkat -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">B</span>
+                            <h3 class="text-xl font-bold text-slate-900">Kalkulator Eksplorasi Sifat</h3>
+                        </div>
+                        <p class="text-slate-600 text-sm mb-4">
+                            Ubah nilai basis (<span class="font-mono font-bold">b</span>) dan pangkat (<span class="font-mono font-bold">x</span>) untuk mengamati bagaimana nilai fungsi berubah secara drastis!
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                <label class="block text-xs font-semibold text-slate-500 mb-1">Basis (b)</label>
+                                <input type="number" id="calc-b" value="2" step="0.5" min="0.1" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg font-mono font-bold text-slate-800 focus:ring-2 focus:ring-blue-500 outline-none" oninput="updateMiniCalc()">
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                <label class="block text-xs font-semibold text-slate-500 mb-1">Eksponen / Pangkat (x)</label>
+                                <input type="number" id="calc-x" value="3" step="1" min="-10" max="20" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg font-mono font-bold text-slate-800 focus:ring-2 focus:ring-blue-500 outline-none" oninput="updateMiniCalc()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 p-5 rounded-xl">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold uppercase tracking-wider text-emerald-800">Hasil Perhitungan:</span>
+                            <span id="calc-behavior" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-600 text-white">Monoton Naik</span>
+                        </div>
+                        <p id="calc-result" class="text-2xl sm:text-3xl font-mono font-extrabold text-slate-900">
+                            f(3) = 2³ = 8
+                        </p>
+                        <p id="calc-note" class="text-xs text-slate-600 mt-2">
+                            Karena b > 1, semakin besar nilai x, nilai f(x) tumbuh semakin cepat.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sifat-Sifat Utama -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h3 class="text-xl font-bold text-slate-900 mb-4">Sifat-Sifat Utama Grafik Fungsi Eksponensial f(x) = bˣ</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-400 transition">
+                        <div class="text-blue-600 font-bold text-lg mb-1">1. Domain & Range</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Daerah asal (Domain) adalah seluruh bilangan real <strong>(-∞, ∞)</strong>, sedangkan daerah hasil (Range) selalu positif <strong>(0, ∞)</strong>.
+                        </p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-400 transition">
+                        <div class="text-indigo-600 font-bold text-lg mb-1">2. Titik Potong Sumbu Y</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Untuk f(x) = bˣ, grafik selalu memotong sumbu Y di titik <strong>(0, 1)</strong> karena setiap bilangan b > 0 dipangkatkan 0 bernilai 1.
+                        </p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-400 transition">
+                        <div class="text-purple-600 font-bold text-lg mb-1">3. Asimtot Datar</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Sumbu X (garis <strong>y = 0</strong>) adalah asimtot datar. Kurva mendekati sumbu X namun tidak pernah menyentuh atau memotongnya.
+                        </p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-blue-400 transition">
+                        <div class="text-emerald-600 font-bold text-lg mb-1">4. Kemonotonan</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Jika <strong>b > 1</strong> grafik <em>monoton naik</em> (pertumbuhan). Jika <strong>0 < b < 1</strong> grafik <em>monoton turun</em> (peluruhan).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 2: LAB GRAFIK INTERAKTIF ==================== -->
+        <section id="tab-grafik" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <!-- Panel Kontrol Slider -->
+                    <div class="w-full lg:w-1/3 space-y-5">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900">Laboratorium Grafik</h3>
+                            <p class="text-xs text-slate-500 mt-1">
+                                Amati transformasi fungsi <span class="font-mono font-bold text-blue-600">f(x) = a · bˣ + c</span> secara langsung.
+                            </p>
+                        </div>
+
+                        <div class="bg-slate-900 text-white p-4 rounded-xl text-center">
+                            <p id="graph-equation" class="font-mono text-lg sm:text-xl font-bold text-amber-400">
+                                f(x) = 1 · (2.0)ˣ + 0
+                            </p>
+                        </div>
+
+                        <!-- Slider a -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <div class="flex justify-between text-sm font-semibold mb-2">
+                                <span>Koefisien Awal (a)</span>
+                                <span id="val-a" class="font-mono text-blue-600 bg-blue-100 px-2 py-0.5 rounded">1</span>
+                            </div>
+                            <input type="range" id="slider-a" min="-3" max="4" step="0.5" value="1" class="w-full" oninput="updateGraph()">
+                            <p class="text-[11px] text-slate-500 mt-1">Mengatur peregangan vertikal & pencerminan sumbu X.</p>
+                        </div>
+
+                        <!-- Slider b -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <div class="flex justify-between text-sm font-semibold mb-2">
+                                <span>Basis (b)</span>
+                                <span id="val-b" class="font-mono text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded">2.0</span>
+                            </div>
+                            <input type="range" id="slider-b" min="0.2" max="4" step="0.1" value="2.0" class="w-full" oninput="updateGraph()">
+                            <p class="text-[11px] text-slate-500 mt-1">b > 1: Pertumbuhan | 0 < b < 1: Peluruhan (b ≠ 1).</p>
+                        </div>
+
+                        <!-- Slider c -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <div class="flex justify-between text-sm font-semibold mb-2">
+                                <span>Pergeseran Vertikal / Asimtot (c)</span>
+                                <span id="val-c" class="font-mono text-purple-600 bg-purple-100 px-2 py-0.5 rounded">0</span>
+                            </div>
+                            <input type="range" id="slider-c" min="-4" max="4" step="0.5" value="0" class="w-full" oninput="updateGraph()">
+                            <p class="text-[11px] text-slate-500 mt-1">Menggeser grafik naik/turun dan menentukan asimtot datar y = c.</p>
+                        </div>
+
+                        <!-- Analisis Otomatis Grafik -->
+                        <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl text-xs space-y-1.5 text-slate-700">
+                            <p class="font-bold text-blue-900">Analisis Karakteristik Saat Ini:</p>
+                            <p>• <strong>Titik Potong Sumbu Y:</strong> <span id="info-yintercept" class="font-mono font-bold">(0, 1)</span></p>
+                            <p>• <strong>Asimtot Datar:</strong> <span id="info-asymptote" class="font-mono font-bold">y = 0</span></p>
+                            <p>• <strong>Sifat Kemonotonan:</strong> <span id="info-monotone" class="font-semibold text-emerald-700">Monoton Naik</span></p>
+                        </div>
+
+                        <button onclick="resetGraph()" class="w-full py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold rounded-xl text-sm transition">
+                            Reset Parameter Default
+                        </button>
+                    </div>
+
+                    <!-- Canvas Grafik -->
+                    <div class="w-full lg:w-2/3 flex flex-col">
+                        <div class="relative w-full h-[380px] sm:h-[460px] bg-white border-2 border-slate-200 rounded-2xl overflow-hidden shadow-inner">
+                            <canvas id="expCanvas" class="w-full h-full block"></canvas>
+                        </div>
+                        <div class="flex flex-wrap justify-between items-center mt-3 text-xs text-slate-500 px-1 gap-2">
+                            <div class="flex items-center gap-4">
+                                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-600 inline-block"></span> Kurva f(x)</span>
+                                <span class="flex items-center gap-1.5"><span class="w-4 h-0.5 border-t-2 border-dashed border-rose-500 inline-block"></span> Asimtot Datar (y = c)</span>
+                                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span> Titik Potong Y</span>
+                            </div>
+                            <span>Skala Grid: 1 kotak = 1 satuan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: PROYEK KOKURIKULER (PEMODELAN NYATA) ==================== -->
+        <section id="tab-kokurikuler" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="mb-6">
+                    <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-bold">Integrasi Lintas Disiplin & P5</span>
+                    <h3 class="text-2xl font-bold text-slate-900 mt-2">Pemodelan Masalah Nyata (Kokurikuler)</h3>
+                    <p class="text-sm text-slate-600 mt-1">
+                        Pilih salah satu studi kasus kokurikuler di bawah ini, lakukan simulasi data, dan jawab tantangan pemodelannya!
+                    </p>
+                </div>
+
+                <!-- Pilihan Studi Kasus -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <button onclick="selectCase('bakteri')" id="case-btn-bakteri" class="case-card text-left p-4 rounded-xl border-2 border-blue-600 bg-blue-50/60 transition">
+                        <div class="text-2xl mb-2">🦠</div>
+                        <h4 class="font-bold text-slate-900">1. Biologi & Kesehatan</h4>
+                        <p class="text-xs text-slate-600 mt-1">Pertumbuhan koloni bakteri <em>E. coli</em> pada media kultur laboratorium.</p>
+                    </button>
+                    <button onclick="selectCase('radioaktif')" id="case-btn-radioaktif" class="case-card text-left p-4 rounded-xl border-2 border-slate-200 hover:border-blue-400 transition">
+                        <div class="text-2xl mb-2">☢️</div>
+                        <h4 class="font-bold text-slate-900">2. Fisika & Lingkungan</h4>
+                        <p class="text-xs text-slate-600 mt-1">Peluruhan isotop Iodium-131 dalam limbah medis rumah sakit.</p>
+                    </button>
+                    <button onclick="selectCase('investasi')" id="case-btn-investasi" class="case-card text-left p-4 rounded-xl border-2 border-slate-200 hover:border-blue-400 transition">
+                        <div class="text-2xl mb-2">💰</div>
+                        <h4 class="font-bold text-slate-900">3. Ekonomi & Kewirausahaan</h4>
+                        <p class="text-xs text-slate-600 mt-1">Perencanaan dana usaha siswa dengan sistem bunga majemuk.</p>
+                    </button>
+                </div>
+
+                <!-- Area Simulasi Studi Kasus -->
+                <div id="case-detail-container" class="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+                    <!-- Konten diisi dinamis oleh JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 4: UJI PEMAHAMAN ==================== -->
+        <section id="tab-evaluasi" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 max-w-4xl mx-auto">
+                <div class="flex justify-between items-center border-b border-slate-200 pb-4 mb-6">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900">Kuis Evaluasi Formatif</h3>
+                        <p class="text-xs text-slate-500">Uji pemahaman konsep, sifat grafik, dan pemodelan eksponensial.</p>
+                    </div>
+                    <div id="quiz-score-badge" class="hidden px-4 py-2 bg-emerald-100 text-emerald-800 font-bold rounded-xl text-sm">
+                        Skor: 0 / 100
+                    </div>
+                </div>
+
+                <div id="quiz-container" class="space-y-6">
+                    <!-- Soal dirender lewat JS -->
+                </div>
+
+                <div class="mt-8 flex flex-wrap gap-3 justify-end">
+                    <button onclick="resetQuiz()" class="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-100 transition">
+                        Ulangi Kuis
+                    </button>
+                    <button onclick="submitQuiz()" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-md transition">
+                        Periksa Jawaban
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==================== MODAL RPP UNTUK GURU ==================== -->
+    <div id="rpp-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-8 shadow-2xl border border-slate-200">
+            <div class="flex justify-between items-start border-b border-slate-200 pb-4 mb-4">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Panduan Guru / Modul Ajar</span>
+                    <h3 class="text-xl font-bold text-slate-900">Integrasi RPP & Aktivitas Kokurikuler</h3>
+                </div>
+                <button onclick="toggleRPPModal()" class="p-2 text-slate-400 hover:text-slate-700 rounded-lg bg-slate-100 font-bold">✕</button>
+            </div>
+            
+            <div class="space-y-4 text-sm text-slate-700 leading-relaxed">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <div><strong>Mata Pelajaran:</strong> Matematika Tingkat Lanjut</div>
+                    <div><strong>Fase / Kelas:</strong> Fase F / XI IPA</div>
+                    <div><strong>Topik:</strong> Fungsi Eksponensial & Pemodelan</div>
+                    <div><strong>Alokasi Waktu:</strong> 2 × 45 Menit (Intrakurikuler + Kokurikuler)</div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-slate-900 mb-1">1. Tujuan Pembelajaran (TP):</h4>
+                    <p>Peserta didik mampu menjelaskan konsep dan sifat-sifat fungsi eksponensial, menggambar dan menganalisis perubahan grafiknya, serta memodelkan dan menyelesaikan masalah kontekstual (pertumbuhan dan peluruhan).</p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-slate-900 mb-1">2. Skenario Pembelajaran Berbasis Web Ini:</h4>
+                    <ul class="list-disc list-inside space-y-1.5">
+                        <li><strong>Pendahuluan (10 Menit):</strong> Guru memantik rasa ingin tahu tentang fenomena penggandaan (misal: penyebaran informasi atau pembelahan sel) menggunakan <em>Tab 1 (Konsep & Sifat)</em>.</li>
+                        <li><strong>Eksplorasi Konsep (25 Menit):</strong> Siswa bekerja berkelompok menggunakan <em>Tab 2 (Lab Grafik)</em> untuk menemukan secara mandiri pengaruh parameter <code>a</code>, <code>b</code>, dan <code>c</code> terhadap bentuk grafik dan asimtot.</li>
+                        <li><strong>Proyek Kokurikuler (35 Menit):</strong> Siswa memilih salah satu studi kasus pada <em>Tab 3 (Proyek Kokurikuler)</em> sesuai minat (Biologi, Lingkungan/Fisika, atau Kewirausahaan) untuk menyusun model matematika dan mempresentasikan solusinya.</li>
+                        <li><strong>Refleksi & Asesmen Formatif (20 Menit):</strong> Siswa mengerjakan kuis interaktif pada <em>Tab 4</em> sebagai umpan balik langsung.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-slate-900 mb-1">3. Dimensi Profil Pelajar Pancasila (Kokurikuler):</h4>
+                    <p>Bernalar kritis (menganalisis pola perubahan eksponensial), Kreatif (menyajikan model pemecahan masalah nyata), dan Bergotong royong dalam diskusi kelompok.</p>
+                </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-slate-200 flex justify-end">
+                <button onclick="toggleRPPModal()" class="px-5 py-2 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition">
+                    Tutup Panduan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- 1. NAVIGASI TAB ---
+        function switchTab(tabName) {
+            // Sembunyikan semua konten tab
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // Reset style tombol
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('text-slate-600', 'hover:bg-slate-100');
+            });
+
+            // Tampilkan tab terpilih
+            document.getElementById('tab-' + tabName).classList.remove('hidden');
+            const activeBtn = document.getElementById('btn-' + tabName);
+            activeBtn.classList.remove('text-slate-600', 'hover:bg-slate-100');
+            activeBtn.classList.add('bg-blue-600', 'text-white');
+
+            // Jika masuk tab grafik, pastikan ukuran canvas di-render ulang dengan benar
+            if (tabName === 'grafik') {
+                setTimeout(resizeAndDrawGraph, 50);
+            }
+        }
+
+        function toggleRPPModal() {
+            const modal = document.getElementById('rpp-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        // --- 2. MINI CALCULATOR TAB 1 ---
+        function updateMiniCalc() {
+            let b = parseFloat(document.getElementById('calc-b').value);
+            let x = parseFloat(document.getElementById('calc-x').value);
+            const resultEl = document.getElementById('calc-result');
+            const behaviorEl = document.getElementById('calc-behavior');
+            const noteEl = document.getElementById('calc-note');
+
+            if (isNaN(b) || isNaN(x)) return;
+
+            if (b <= 0) {
+                resultEl.textContent = "Tidak Terdefinisi (b ≤ 0)";
+                behaviorEl.textContent = "Syarat Tidak Terpenuhi";
+                behaviorEl.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-600 text-white";
+                noteEl.textContent = "Ingat syarat fungsi eksponensial: basis b harus lebih besar dari 0.";
+                return;
+            }
+
+            if (b === 1) {
+                resultEl.textContent = `f(${x}) = 1^(${x}) = 1`;
+                behaviorEl.textContent = "Fungsi Konstan";
+                behaviorEl.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500 text-white";
+                noteEl.textContent = "Jika b = 1, berapapun nilai x hasilnya selalu 1 (bukan fungsi eksponensial).";
+                return;
+            }
+
+            const res = Math.pow(b, x);
+            const formattedRes = res > 100000 || (res < 0.001 && res > 0) ? res.toExponential(3) : Number(res.toFixed(4));
+            resultEl.textContent = `f(${x}) = (${b})^(${x}) = ${formattedRes}`;
+
+            if (b > 1) {
+                behaviorEl.textContent = "Pertumbuhan (b > 1)";
+                behaviorEl.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-600 text-white";
+                noteEl.textContent = "Karena b > 1, fungsi bersifat monoton naik. Pertambahan x memicu lonjakan nilai f(x).";
+            } else {
+                behaviorEl.textContent = "Peluruhan (0 < b < 1)";
+                behaviorEl.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-600 text-white";
+                noteEl.textContent = "Karena 0 < b < 1, fungsi bersifat monoton turun mendekati 0 seiring bertambahnya x.";
+            }
+        }
+
+        // --- 3. LAB GRAFIK INTERAKTIF (CANVAS) ---
+        const canvas = document.getElementById('expCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeAndDrawGraph() {
+            const container = canvas.parentElement;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = container.clientWidth * dpr;
+            canvas.height = container.clientHeight * dpr;
+            ctx.scale(dpr, dpr);
+            updateGraph();
+        }
+
+        function resetGraph() {
+            document.getElementById('slider-a').value = 1;
+            document.getElementById('slider-b').value = 2.0;
+            document.getElementById('slider-c').value = 0;
+            updateGraph();
+        }
+
+        function updateGraph() {
+            const a = parseFloat(document.getElementById('slider-a').value);
+            let b = parseFloat(document.getElementById('slider-b').value);
+            if (b === 1.0) b = 1.1; // Hindari b = 1 tepat agar tetap eksponensial
+            const c = parseFloat(document.getElementById('slider-c').value);
+
+            // Update label UI
+            document.getElementById('val-a').textContent = a;
+            document.getElementById('val-b').textContent = b.toFixed(1);
+            document.getElementById('val-c').textContent = c;
+
+            const signC = c >= 0 ? `+ ${c}` : `- ${Math.abs(c)}`;
+            document.getElementById('graph-equation').textContent = `f(x) = ${a} · (${b.toFixed(1)})ˣ ${signC}`;
+
+            // Analisis karakteristik
+            const yIntercept = a + c;
+            document.getElementById('info-yintercept').textContent = `(0, ${yIntercept.toFixed(1)})`;
+            document.getElementById('info-asymptote').textContent = `y = ${c}`;
+
+            const monoEl = document.getElementById('info-monotone');
+            if (a === 0) {
+                monoEl.textContent = "Konstan (a = 0)";
+                monoEl.className = "font-semibold text-slate-600";
+            } else if ((a > 0 && b > 1) || (a < 0 && b < 1)) {
+                monoEl.textContent = "Monoton Naik";
+                monoEl.className = "font-semibold text-emerald-700";
+            } else {
+                monoEl.textContent = "Monoton Turun";
+                monoEl.className = "font-semibold text-rose-600";
+            }
+
+            drawCanvas(a, b, c, yIntercept);
+        }
+
+        function drawCanvas(a, b, c, yIntercept) {
+            const width = canvas.parentElement.clientWidth;
+            const height = canvas.parentElement.clientHeight;
+            ctx.clearRect(0, 0, width, height);
+
+            const scale = 32; // piksel per satuan
+            const originX = width / 2;
+            const originY = height / 2 + 40; // sedikit ke bawah agar kuadran atas lebih luas
+
+            // 1. Gambar Grid
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1;
+            ctx.font = '11px Inter';
+            ctx.fillStyle = '#94a3b8';
+
+            // Garis vertikal grid
+            for (let x = originX % scale; x < width; x += scale) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+                const gridVal = Math.round((x - originX) / scale);
+                if (gridVal !== 0) {
+                    ctx.fillText(gridVal, x - 4, originY + 14);
+                }
+            }
+
+            // Garis horizontal grid
+            for (let y = originY % scale; y < height; y += scale) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+                const gridVal = Math.round((originY - y) / scale);
+                if (gridVal !== 0) {
+                    ctx.fillText(gridVal, originX + 6, y + 4);
+                }
+            }
+
+            // 2. Gambar Sumbu Koordinat Utama
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 2;
+            // Sumbu X
+            ctx.beginPath();
+            ctx.moveTo(0, originY);
+            ctx.lineTo(width, originY);
+            ctx.stroke();
+            // Sumbu Y
+            ctx.beginPath();
+            ctx.moveTo(originX, 0);
+            ctx.lineTo(originX, height);
+            ctx.stroke();
+
+            // 3. Gambar Asimtot Datar (y = c)
+            const asymY = originY - c * scale;
+            ctx.save();
+            ctx.strokeStyle = '#f43f5e';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([6, 6]);
+            ctx.beginPath();
+            ctx.moveTo(0, asymY);
+            ctx.lineTo(width, asymY);
+            ctx.stroke();
+            ctx.restore();
+
+            // 4. Gambar Kurva Fungsi Eksponensial
+            ctx.strokeStyle = '#2563eb';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            let firstPoint = true;
+            for (let px = 0; px <= width; px += 2) {
+                const mathX = (px - originX) / scale;
+                const mathY = a * Math.pow(b, mathX) + c;
+                const py = originY - mathY * scale;
+
+                if (py >= -100 && py <= height + 100) {
+                    if (firstPoint) {
+                        ctx.moveTo(px, py);
+                        firstPoint = false;
+                    } else {
+                        ctx.lineTo(px, py);
+                    }
+                } else {
+                    firstPoint = true;
+                }
+            }
+            ctx.stroke();
+
+            // 5. Titik Potong Sumbu Y
+            const interceptPy = originY - yIntercept * scale;
+            if (interceptPy >= 0 && interceptPy <= height) {
+                ctx.fillStyle = '#f59e0b';
+                ctx.beginPath();
+                ctx.arc(originX, interceptPy, 6, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.fillStyle = '#1e293b';
+                ctx.font = 'bold 12px Inter';
+                ctx.fillText(`(0, ${yIntercept.toFixed(1)})`, originX + 10, interceptPy - 8);
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            if (!document.getElementById('tab-grafik').classList.contains('hidden')) {
+                resizeAndDrawGraph();
+            }
+        });
+
+        // --- 4. PROYEK KOKURIKULER (PEMODELAN MASALAH NYATA) ---
+        const caseData = {
+            bakteri: {
+                title: "Studi Kasus 1: Pertumbuhan Koloni Bakteri (Biologi)",
+                badge: "Model Pertumbuhan: f(t) = N₀ · bᵗ",
+                story: "Dalam praktikum kokurikuler Biologi, siswa mengamati kultur bakteri <em>Escherichia coli</em>. Pada pengamatan awal (t = 0 jam), terdapat <strong>50 sel bakteri</strong>. Setiap 1 jam, jumlah bakteri membelah diri menjadi <strong>2 kali lipat</strong>.",
+                formulaText: "f(t) = 50 · 2ᵗ",
+                unit: "sel bakteri",
+                timeLabel: "Waktu pengamatan (t jam)",
+                minT: 0, maxT: 10, defaultT: 4,
+                calc: (t) => 50 * Math.pow(2, t),
+                question: "Tantangan Pemodelan: Berapa jumlah bakteri setelah 6 jam pengamatan?",
+                correctAnswer: 3200,
+                hint: "Substitusikan t = 6 ke dalam rumus f(t) = 50 · 2ᵗ → 50 × 2⁶."
+            },
+            radioaktif: {
+                title: "Studi Kasus 2: Peluruhan Limbah Medis Iodium-131 (Fisika/Lingkungan)",
+                badge: "Model Peluruhan: f(t) = M₀ · (½)^(t/T)",
+                story: "Sebagai proyek peduli lingkungan, siswa menganalisis keamanan limbah medis Iodium-131 yang memiliki waktu paruh <strong>8 hari</strong>. Jika massa awal limbah adalah <strong>160 gram</strong>, setiap 8 hari massanya berkurang menjadi setengahnya.",
+                formulaText: "f(t) = 160 · (0.5)^(t/8)",
+                unit: "gram",
+                timeLabel: "Waktu peluruhan (t hari)",
+                minT: 0, maxT: 48, defaultT: 16,
+                calc: (t) => 160 * Math.pow(0.5, t / 8),
+                question: "Tantangan Pemodelan: Berapa gram sisa zat radioaktif setelah 24 hari?",
+                correctAnswer: 20,
+                hint: "Setelah 24 hari terjadi 24 / 8 = 3 kali waktu paruh. Hitung 160 × (0.5)³."
+            },
+            investasi: {
+                title: "Studi Kasus 3: Dana Abadi Koperasi Siswa (Ekonomi/Kewirausahaan)",
+                badge: "Bunga Majemuk: M(t) = M₀ · (1 + i)ᵗ",
+                story: "Dalam proyek kewirausahaan kokurikuler, OSIS menginvestasikan modal awal sebesar <strong>Rp 1.000.000</strong> pada instrumen syariah/bank dengan imbal hasil majemuk sebesar <strong>10% (0.1) per tahun</strong>.",
+                formulaText: "M(t) = 1.000.000 · (1.1)ᵗ",
+                unit: "Rupiah",
+                timeLabel: "Lama investasi (t tahun)",
+                minT: 0, maxT: 15, defaultT: 3,
+                calc: (t) => Math.round(1000000 * Math.pow(1.1, t)),
+                question: "Tantangan Pemodelan: Berapa total dana setelah 2 tahun (tulis angka tanpa titik, misal: 1210000)?",
+                correctAnswer: 1210000,
+                hint: "Hitung M(2) = 1.000.000 × (1.1)² = 1.000.000 × 1.21."
+            }
+        };
+
+        let currentCaseKey = 'bakteri';
+
+        function selectCase(key) {
+            currentCaseKey = key;
+            // Update active styling
+            document.querySelectorAll('.case-card').forEach(card => {
+                card.classList.remove('border-blue-600', 'bg-blue-50/60');
+                card.classList.add('border-slate-200');
+            });
+            const activeCard = document.getElementById('case-btn-' + key);
+            activeCard.classList.remove('border-slate-200');
+            activeCard.classList.add('border-blue-600', 'bg-blue-50/60');
+
+            renderCaseDetail();
+        }
+
+        function renderCaseDetail() {
+            const c = caseData[currentCaseKey];
+            const container = document.getElementById('case-detail-container');
+            const initialVal = c.calc(c.defaultT);
+
+            container.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+                    <div class="space-y-4">
+                        <span class="inline-block px-3 py-1 bg-indigo-100 text-indigo-800 rounded-lg text-xs font-mono font-bold">${c.badge}</span>
+                        <h4 class="text-xl font-bold text-slate-900">${c.title}</h4>
+                        <p class="text-sm text-slate-700 leading-relaxed">${c.story}</p>
+                        
+                        <div class="bg-white p-4 rounded-xl border border-slate-200">
+                            <p class="text-xs text-slate-500 font-semibold mb-1">Model Matematika:</p>
+                            <p class="text-xl font-mono font-bold text-blue-700">${c.formulaText}</p>
+                        </div>
+
+                        <!-- Simulasi Interaktif Kasus -->
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-3">
+                            <div class="flex justify-between text-sm font-semibold">
+                                <span>${c.timeLabel}</span>
+                                <span id="case-t-val" class="font-mono text-blue-600 font-bold">${c.defaultT}</span>
+                            </div>
+                            <input type="range" id="case-slider" min="${c.minT}" max="${c.maxT}" step="1" value="${c.defaultT}" class="w-full" oninput="updateCaseSim()">
+                            <div class="pt-2 border-t border-slate-100 flex justify-between items-center">
+                                <span class="text-xs text-slate-500">Hasil Simulasi:</span>
+                                <span id="case-sim-result" class="text-lg font-mono font-extrabold text-emerald-700">
+                                    ${initialVal.toLocaleString('id-ID')} ${c.unit}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tantangan Pemecahan Masalah -->
+                    <div class="bg-white p-6 rounded-2xl border-2 border-amber-200 shadow-sm space-y-4">
+                        <div class="flex items-center gap-2 text-amber-700 font-bold text-sm">
+                            <span>✍️ Lembar Kerja Siswa (LKS) Digital</span>
+                        </div>
+                        <p class="text-sm font-semibold text-slate-800">${c.question}</p>
+                        
+                        <div>
+                            <label class="block text-xs text-slate-500 mb-1">Masukkan Jawaban Numerik Anda:</label>
+                            <div class="flex gap-2">
+                                <input type="number" id="case-answer-input" placeholder="Ketik angka..." class="w-full px-4 py-2.5 border border-slate-300 rounded-xl font-mono text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                                <button onclick="checkCaseAnswer()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-sm shrink-0 transition">
+                                    Cek
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="case-feedback" class="hidden p-3.5 rounded-xl text-xs leading-relaxed"></div>
+
+                        <details class="text-xs text-slate-500 cursor-pointer">
+                            <summary class="font-semibold text-blue-600 hover:underline">Butuh petunjuk pengerjaan?</summary>
+                            <p class="mt-2 p-3 bg-slate-50 rounded-lg border border-slate-200 text-slate-700">${c.hint}</p>
+                        </details>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateCaseSim() {
+            const c = caseData[currentCaseKey];
+            const t = parseFloat(document.getElementById('case-slider').value);
+            document.getElementById('case-t-val').textContent = t;
+            const res = c.calc(t);
+            const formatted = Number.isInteger(res) ? res.toLocaleString('id-ID') : res.toFixed(2);
+            document.getElementById('case-sim-result').textContent = `${formatted} ${c.unit}`;
+        }
+
+        function checkCaseAnswer() {
+            const c = caseData[currentCaseKey];
+            const userAns = parseFloat(document.getElementById('case-answer-input').value);
+            const feedback = document.getElementById('case-feedback');
+            feedback.classList.remove('hidden');
+
+            if (isNaN(userAns)) {
+                feedback.className = "p-3.5 rounded-xl text-xs bg-amber-50 text-amber-800 border border-amber-200";
+                feedback.textContent = "Silakan masukkan angka jawaban terlebih dahulu.";
+                return;
+            }
+
+            if (Math.abs(userAns - c.correctAnswer) < 0.01) {
+                feedback.className = "p-3.5 rounded-xl text-xs bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium";
+                feedback.innerHTML = `🎉 <strong>Tepat Sekali!</strong> Jawaban Anda (${userAns.toLocaleString('id-ID')}) benar. Anda berhasil menerapkan model eksponensial untuk memprediksi fenomena nyata.`;
+            } else {
+                feedback.className = "p-3.5 rounded-xl text-xs bg-rose-50 text-rose-800 border border-rose-200";
+                feedback.innerHTML = `❌ <strong>Belum Tepat.</strong> Coba periksa kembali perhitungan pangkatnya atau gunakan petunjuk di bawah.`;
+            }
+        }
+
+        // --- 5. KUIS EVALUASI FORMATIF ---
+        const quizQuestions = [
+            {
+                q: "Manakah di bawah ini yang merupakan syarat basis (b) pada fungsi eksponensial f(x) = a · bˣ?",
+                options: [
+                    "b > 0 dan b ≠ 1",
+                    "b ≥ 0 dan b ≠ 1",
+                    "b < 0 dan b ≠ -1",
+                    "Semua bilangan real"
+                ],
+                ans: 0,
+                explanation: "Basis b harus positif (b > 0) agar terdefinisi untuk semua pangkat real, dan b ≠ 1 agar tidak menjadi fungsi konstan."
+            },
+            {
+                q: "Diketahui fungsi eksponensial f(x) = 3 · (½)ˣ + 2. Persamaan asimtot datar dari grafik fungsi tersebut adalah...",
+                options: [
+                    "y = 0",
+                    "y = 3",
+                    "y = 2",
+                    "x = 2"
+                ],
+                ans: 2,
+                explanation: "Untuk bentuk f(x) = a · bˣ + c, nilai konstanta c menentukan pergeseran vertikal sekaligus persamaan asimtot datarnya yaitu y = c = 2."
+            },
+            {
+                q: "Grafik fungsi f(x) = 4 · (0.75)ˣ memiliki sifat...",
+                options: [
+                    "Monoton naik dan memotong sumbu Y di (0, 1)",
+                    "Monoton turun dan memotong sumbu Y di (0, 4)",
+                    "Monoton naik dan memotong sumbu Y di (0, 4)",
+                    "Monoton turun dan memotong sumbu X di (4, 0)"
+                ],
+                ans: 1,
+                explanation: "Karena basis 0 < 0.75 < 1, grafik monoton turun. Saat x = 0, f(0) = 4 · (0.75)⁰ = 4, sehingga memotong sumbu Y di (0, 4)."
+            },
+            {
+                q: "Sebuah populasi tanaman hias langka di kebun sekolah bertambah 20% setiap bulan. Jika awalnya ada 25 tanaman, model fungsi eksponensial jumlah tanaman setelah t bulan adalah...",
+                options: [
+                    "f(t) = 25 · (0.2)ᵗ",
+                    "f(t) = 25 · (1.2)ᵗ",
+                    "f(t) = 25 + (1.2)ᵗ",
+                    "f(t) = 20 · (1.25)ᵗ"
+                ],
+                ans: 1,
+                explanation: "Pertumbuhan sebesar r = 20% = 0.2 memiliki faktor pertumbuhan b = (1 + r) = 1.2. Dengan nilai awal a = 25, modelnya adalah f(t) = 25 · (1.2)ᵗ."
+            }
+        ];
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = quizQuestions.map((item, idx) => `
+                <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-3" id="q-box-${idx}">
+                    <p class="font-semibold text-slate-900 text-sm sm:text-base">${idx + 1}. ${item.q}</p>
+                    <div class="space-y-2">
+                        ${item.options.map((opt, optIdx) => `
+                            <label class="flex items-center gap-3 p-3 rounded-lg bg-white border border-slate-200 hover:border-blue-400 cursor-pointer transition text-sm">
+                                <input type="radio" name="quiz-q-${idx}" value="${optIdx}" class="w-4 h-4 text-blue-600">
+                                <span>${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                    <div id="q-exp-${idx}" class="hidden p-3 rounded-lg text-xs leading-relaxed"></div>
+                </div>
+            `).join('');
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            const pointsPerQ = 100 / quizQuestions.length;
+
+            quizQuestions.forEach((item, idx) => {
+                const selected = document.querySelector(`input[name="quiz-q-${idx}"]:checked`);
+                const expBox = document.getElementById(`q-exp-${idx}`);
+                expBox.classList.remove('hidden');
+
+                if (selected && parseInt(selected.value) === item.ans) {
+                    score += pointsPerQ;
+                    expBox.className = "p-3 rounded-lg text-xs bg-emerald-50 text-emerald-800 border border-emerald-200";
+                    expBox.innerHTML = `✅ <strong>Benar!</strong> ${item.explanation}`;
+                } else {
+                    expBox.className = "p-3 rounded-lg text-xs bg-rose-50 text-rose-800 border border-rose-200";
+                    expBox.innerHTML = `❌ <strong>Kurang Tepat.</strong> Jawaban yang benar adalah <em>"${item.options[item.ans]}"</em>. ${item.explanation}`;
+                }
+            });
+
+            const badge = document.getElementById('quiz-score-badge');
+            badge.classList.remove('hidden');
+            badge.textContent = `Skor Akhir: ${score} / 100`;
+        }
+
+        function resetQuiz() {
+            document.getElementById('quiz-score-badge').classList.add('hidden');
+            renderQuiz();
+        }
+
+        // --- INISIALISASI AWAL ---
+        window.onload = function () {
+            updateMiniCalc();
+            renderCaseDetail();
+            renderQuiz();
+        };
+    </script>
+</body>
+</html>
